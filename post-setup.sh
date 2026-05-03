@@ -49,8 +49,9 @@ EOF
 cat <<EOF > /boot/loader/entries/arch.conf
 title   Arch Linux
 linux   /vmlinuz-linux
+initrd  /amd-ucode.img
 initrd  /initramfs-linux.img
-options root=UUID=$UUID rw
+options root=UUID=$UUID rw quiet nowatchdog
 EOF
 
 echo "==> loading dotfiles..."
@@ -83,6 +84,23 @@ zram-size = ram / 2
 compression-algorithm = zstd
 EOF
 
-echo "==> Завершение настройки в chroot."
+echo "==> Configuring mkinitcpio..."
+
+sed -i 's/^HOOKS=(.*/HOOKS=(base systemd autodetect microcode modconf block filesystems)/' /etc/mkinitcpio.conf
+
+sed -i 's/^COMPRESSION=/#COMPRESSION=/' /etc/mkinitcpio.conf
+
+if grep -q "^#COMPRESSION=\"cat\"" /etc/mkinitcpio.conf; then
+    sed -i 's/^#COMPRESSION="cat"/COMPRESSION="cat"/' /etc/mkinitcpio.conf
+else
+    echo 'COMPRESSION="cat"' >> /etc/mkinitcpio.conf
+fi
+
+sed -i 's/^#MODULES_DECOMPRESS=.*/MODULES_DECOMPRESS="yes"/' /etc/mkinitcpio.conf
+sed -i 's/^MODULES_DECOMPRESS=.*/MODULES_DECOMPRESS="yes"/' /etc/mkinitcpio.conf
+
+mkinitcpio -P
+
+echo "==> Ending chroot."
 
 exit
