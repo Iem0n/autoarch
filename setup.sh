@@ -62,8 +62,3 @@ chmod +x /mnt/post-setup.sh
 
 echo "==> Enter in chroot..."
 arch-chroot /mnt ./post-setup.sh "vova" "vova-pc" "$ROOT_PART"
-
-read -p "system instaled! press ENTER for reboot"
-
-umount -a
-reboot

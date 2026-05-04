@@ -84,23 +84,18 @@ zram-size = ram / 2
 compression-algorithm = zstd
 EOF
 
-echo "==> Configuring mkinitcpio..."
-
-sed -i 's/^HOOKS=(.*/HOOKS=(base systemd autodetect microcode modconf block filesystems)/' /etc/mkinitcpio.conf
-
-sed -i 's/^COMPRESSION=/#COMPRESSION=/' /etc/mkinitcpio.conf
-
-if grep -q "^#COMPRESSION=\"cat\"" /etc/mkinitcpio.conf; then
-    sed -i 's/^#COMPRESSION="cat"/COMPRESSION="cat"/' /etc/mkinitcpio.conf
-else
-    echo 'COMPRESSION="cat"' >> /etc/mkinitcpio.conf
+read -p "Do You want edit mkinitcpio.conf? (y/n)" ANS
+if [[ $ANS =! "y" ]]; then
+  echo "==> Ending chroot."
+  echo "Your system is installed"
+  read -p "Press enter and type 'umount -a' and after 'reboot'"
+  exit 1
 fi
 
-sed -i 's/^#MODULES_DECOMPRESS=.*/MODULES_DECOMPRESS="yes"/' /etc/mkinitcpio.conf
-sed -i 's/^MODULES_DECOMPRESS=.*/MODULES_DECOMPRESS="yes"/' /etc/mkinitcpio.conf
+nvim /etc/mkinitcpio.conf
 
 mkinitcpio -P
 
 echo "==> Ending chroot."
-
-exit
+echo "Your system is installed"
+read -p "Press enter and type 'umount -a' and after 'reboot'"
