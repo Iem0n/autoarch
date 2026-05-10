@@ -13,7 +13,7 @@ echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "LANG=ru_RU.UTF-8" > /etc/locale.conf
 
 echo "$HOST" >> /etc/hostname
 
@@ -85,7 +85,7 @@ compression-algorithm = zstd
 EOF
 
 read -p "Do You want edit mkinitcpio.conf? (y/n)" ANS
-if [[ $ANS =! "y" ]]; then
+if [[ $ANS != "y" ]]; then
   echo "==> Ending chroot."
   echo "Your system is installed"
   read -p "Press enter and type 'umount -a' and after 'reboot'"
