@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+echo "==> Before installation, please check your drive table"
+read -p "Press enter to continue..."
+cfdisk
+
+echo "==> Unmouting all drives..."
+umount -a
+
 echo "==> List of avalible drives:"
 lsblk -dno NAME,SIZE,MODEL | grep -v "loop"
 read -p "Enter drive name (nvme0n1 or sda): " DISK_NAME
