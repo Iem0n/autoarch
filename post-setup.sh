@@ -31,8 +31,9 @@ echo 'Just uncomment this line ==> "%wheel ALL=(ALL:ALL) ALL"'
 read -p "press enter to continue..."
 EDITOR=nvim visudo
 
-echo "==> Enabling NetworkManager..."
+echo "==> Enabling NetworkManager and bluetooth..."
 systemctl enable NetworkManager
+systemctl enable bluetooth
 
 echo "==> installing systemd-boot..."
 bootctl install
@@ -59,7 +60,7 @@ su - "$USER" -c "git clone https://github.com/Iem0n/arch_sync.git ~/my-dotfiles"
 su - "$USER" -c "cd ~/my-dotfiles && ./install.sh"
 
 echo "==> installing greetd and tuigreet..."
-pacman -S --noconfirm greetd greetd-tuigreet
+pacman -S --noconfirm greetd greetd-tuigreet zram-generator
 
 echo "==> Configurating greetd..."
 [ -f /etc/greetd/config.toml ] && mv /etc/greetd/config.toml /etc/greetd/config.toml.bak
@@ -77,7 +78,6 @@ echo "==> Enabling greetd service..."
 systemctl enable greetd.service
 
 echo "==> Generating ZRAM..."
-pacman -S zram-generator
 cat <<EOF > /etc/systemd/zram-generator.conf
 [zram0]
 zram-size = ram / 2
@@ -86,14 +86,12 @@ EOF
 
 read -p "Do You want edit mkinitcpio.conf? (y/n)" ANS
 if [[ $ANS != "y" ]]; then
-  echo "==> Ending chroot."
-  echo "Your system is installed"
+  echo "==> Ending chroot..."
   read -p "Press enter and type 'umount -a' and after 'reboot'"
   exit 1
 fi
 
 nvim /etc/mkinitcpio.conf
-
 mkinitcpio -P
 
 echo "==> Ending chroot."
