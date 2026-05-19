@@ -31,9 +31,8 @@ echo 'Just uncomment this line ==> "%wheel ALL=(ALL:ALL) ALL"'
 read -p "press enter to continue..."
 EDITOR=nvim visudo
 
-echo "==> Enabling NetworkManager and bluetooth..."
+echo "==> Enabling NetworkManager..."
 systemctl enable NetworkManager
-systemctl enable bluetooth
 
 echo "==> installing systemd-boot..."
 bootctl install
