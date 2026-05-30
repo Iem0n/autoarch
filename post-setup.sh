@@ -29,7 +29,7 @@ passwd "$USER"
 echo "Now You must manually give permissions for $USER"
 echo 'Just uncomment this line ==> "%wheel ALL=(ALL:ALL) ALL"'
 read -p "press enter to continue..."
-EDITOR=nvim visudo
+EDITOR=micro visudo
 
 echo "==> Enabling NetworkManager..."
 systemctl enable NetworkManager
@@ -37,7 +37,6 @@ systemctl enable NetworkManager
 echo "==> installing systemd-boot..."
 bootctl install
 
-# Получаем UUID для конфига загрузчика
 UUID=$(blkid -s UUID -o value "$ROOT")
 
 cat <<EOF > /boot/loader/loader.conf
@@ -75,13 +74,6 @@ EOF
 
 echo "==> Enabling greetd service..."
 systemctl enable greetd.service
-
-echo "==> Generating ZRAM..."
-cat <<EOF > /etc/systemd/zram-generator.conf
-[zram0]
-zram-size = ram / 2
-compression-algorithm = zstd
-EOF
 
 read -p "Do You want edit mkinitcpio.conf? (y/n)" ANS
 if [[ $ANS != "y" ]]; then

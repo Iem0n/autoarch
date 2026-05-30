@@ -51,7 +51,7 @@ mkdir -p /mnt/boot
 mount "$EFI_PART" /mnt/boot
 
 echo "==> Installing base system..."
-pacstrap -K /mnt base linux linux-firmware linux-headers amd-ucode base-devel networkmanager neovim efibootmgr git
+pacstrap -K /mnt base linux linux-firmware linux-headers amd-ucode base-devel networkmanager micro efibootmgr git
 
 echo "==> Generating fstab..."
 genfstab -U /mnt >> /mnt/etc/fstab
