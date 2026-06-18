@@ -79,7 +79,7 @@ def main():
     print("\n=== Шаг 5: Установка базовых пакетов (pacstrap) ===")
     base_packages = [
         "base", "linux", "linux-firmware", "linux-headers", "amd-ucode",
-        "base-devel", "networkmanager", "micro", "efibootmgr", "git", "python3"
+        "base-devel", "networkmanager", "helix", "efibootmgr", "git", "python3"
     ]
     run_cmd(["pacstrap", "-K", "/mnt"] + base_packages)
 
@@ -122,8 +122,8 @@ def main():
             continue
 
         print(f"\nПроверьте данные конфигурации:")
-        print(f"  Имя хоста:    {hostname}")
-        print(f"  Пользователь: {username}")
+        print(f"  Host name:    {hostname}")
+        print(f"  User name: {username}")
         if input("Все верно? (y/n): ").strip().lower() == 'y':
             break
 
@@ -139,7 +139,7 @@ def main():
 
     print(f"\n--> Передаем управление в chroot...")
     run_cmd([
-        "arch-chroot", "/mnt", "/usr/bin/python3", "/post-setup.py", 
+        "arch-chroot", "/mnt", "./post-setup.py", 
         username, hostname, root_part, root_pass, user_pass
     ])
 

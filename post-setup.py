@@ -105,7 +105,7 @@ def main():
     run_cmd(["sudo", "-u", user, "git", "remote", "set-url", "origin", "git@github.com:Iem0n/arch_sync.git"], cwd=dotfiles_dir)
 
     print("==> 8. Установка дисплейного менеджера greetd...")
-    run_cmd(["pacman", "-S", "--noconfirm", "greetd", "greetd-tuigreet", "zram-generator"])
+    run_cmd(["pacman", "-S", "--noconfirm", "greetd", "greetd-tuigreet"])
 
     if os.path.exists("/etc/greetd/config.toml"):
         os.rename("/etc/greetd/config.toml", "/etc/greetd/config.toml.bak")
@@ -113,7 +113,7 @@ def main():
     greetd_conf = (
         "[terminal]\nvt = 1\n\n"
         "[default_session]\n"
-        f"command = \"tuigreet --time --remember --cmd 'dbus-run-session /home/{user}/.local/bin/niri-session'\"\n"
+        f"command = \"tuigreet --time --remember\"\n"
         "user = \"greeter\"\n"
     )
     write_file("/etc/greetd/config.toml", greetd_conf)
