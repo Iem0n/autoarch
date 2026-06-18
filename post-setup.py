@@ -100,9 +100,9 @@ def main():
     run_cmd(["sudo", "-u", user, "git", "clone", "https://github.com/Iem0n/arch_sync.git", dotfiles_dir])
     
     # Настраиваем репозиторий на работу по SSH для пушей в будущем
-    run_cmd(["sudo", "-u", user, "git", "config", "user.name", "Iem0n"], cwd=dotfiles_dir)
-    run_cmd(["sudo", "-u", user, "git", "config", "user.email", "vova.lemon@gmail.com"], cwd=dotfiles_dir)
-    run_cmd(["sudo", "-u", user, "git", "remote", "set-url", "origin", "git@github.com:Iem0n/arch_sync.git"], cwd=dotfiles_dir)
+    run_cmd(["sudo", "-u", user, "git", "-C", dotfiles_dir, "config", "user.name", "Iem0n"])
+    run_cmd(["sudo", "-u", user, "git", "-C", dotfiles_dir, "config", "user.email", "vova.lemon@gmail.com"])
+    run_cmd(["sudo", "-u", user, "git", "-C", dotfiles_dir, "remote", "set-url", "origin", "git@github.com:Iem0n/arch_sync.git"])
 
     print("==> 8. Установка дисплейного менеджера greetd...")
     run_cmd(["pacman", "-S", "--noconfirm", "greetd", "greetd-tuigreet"])
