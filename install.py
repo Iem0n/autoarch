@@ -79,7 +79,7 @@ def main():
     print("\n=== Шаг 5: Установка базовых пакетов (pacstrap) ===")
     base_packages = [
         "base", "linux", "linux-firmware", "linux-headers", "amd-ucode",
-        "base-devel", "networkmanager", "helix", "efibootmgr", "git", "python3"
+        "base-devel", "networkmanager", "helix", "efibootmgr", "git", "python3", "openssh"
     ]
     run_cmd(["pacstrap", "-K", "/mnt"] + base_packages)
 
