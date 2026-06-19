@@ -20,9 +20,6 @@ def main():
 
     print("==> targeting disk type...")
 
-    #unmouting all disks, prevent errors
-    run_cmd (["umount", "-a"])
-
     lsblk_out = run_cmd(["lsblk", "-dno", "NAME,SIZE,MODEL"], capture=True)
     available_disks = []
     
