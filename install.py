@@ -28,7 +28,7 @@ def main():
             print(f"  {line}")
             available_disks.append(line.split()[0])
 
-    disk_name = input("\nEnter disk name (nvme0n1 or sda or vda): ").strip()
+    disk_name = input("\nEnter disk name (nvme0n1 or sda): ").strip()
     if disk_name not in available_disks:
         print(f"[ERROR] Disk {disk_name} not found!")
         sys.exit(1)
@@ -78,8 +78,7 @@ def main():
 
     print("\n==> Installing base system...")
     base_packages = [
-        "base", "linux", "linux-firmware", "linux-headers", "amd-ucode",
-        "base-devel", "networkmanager", "helix", "efibootmgr", "git", "python3", "openssh"
+        "base", "linux", "linux-firmware", "linux-headers", "base-devel", "networkmanager", "helix", "efibootmgr", "git", "python3", "openssh"
     ]
     run_cmd(["pacstrap", "-K", "/mnt"] + base_packages)
 
@@ -121,7 +120,7 @@ def main():
             print("[ERROR] Password cannot be empty!")
             continue
 
-        print(f"  Host name:    {hostname}")
+        print(f"  Host name: {hostname}")
         print(f"  User name: {username}")
         if input("(y/n): ").strip().lower() == 'y':
             break
@@ -142,9 +141,6 @@ def main():
     ])
 
     print("\nInstallation complete!")
-
-    run_cmd(["umount", "-a"])
-    run_cmd(["reboot"])
 
 if __name__ == "__main__":
     main()

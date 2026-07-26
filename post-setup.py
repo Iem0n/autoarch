@@ -33,10 +33,9 @@ def main():
     run_cmd(["hwclock", "--systohc"])
 
     with open("/etc/locale.gen", "a") as f:
-        f.write("en_US.UTF-8 UTF-8\nru_RU.UTF-8 UTF-8\n")
+        f.write("en_US.UTF-8 UTF-8\n")
     run_cmd(["locale-gen"])
 
-    write_file("/etc/locale.conf", "LANG=ru_RU.UTF-8\n")
     write_file("/etc/hostname", f"{host}\n")
 
     run_cmd(["passwd"], user_input=f"{root_pass}\n{root_pass}\n")
@@ -85,14 +84,14 @@ def main():
         print(pub_f.read().strip())
     print("="*60 + "\n")
 
-    dotfiles_dir = f"{home_dir}/my-dotfiles"
+    dotfiles_dir = f"{home_dir}/.my-dotfiles"
     if os.path.exists(dotfiles_dir):
         shutil.rmtree(dotfiles_dir)
 
     run_cmd(["sudo", "-u", user, "git", "clone", "https://github.com/Iem0n/arch_sync.git", dotfiles_dir])
     
     run_cmd(["sudo", "-u", user, "git", "-C", dotfiles_dir, "config", "user.name", "Iem0n"])
-    run_cmd(["sudo", "-u", user, "git", "-C", dotfiles_dir, "config", "user.email", "vova.lemon@gmail.com"])
+    run_cmd(["sudo", "-u", user, "git", "-C", dotfiles_dir, "config", "user.email", "vladimirpetrenko1401@gmail.com"])
     run_cmd(["sudo", "-u", user, "git", "-C", dotfiles_dir, "remote", "set-url", "origin", "git@github.com:Iem0n/arch_sync.git"])
 
     if os.path.exists("/post-setup.py"):
